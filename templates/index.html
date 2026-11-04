@@ -1,0 +1,1046 @@
+
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>StorePilot | Business Management</title>
+ <!-- Γραμματοσειρά εφαρμογής -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Σύνδεση CSS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- Βιβλιοθήκη SVG εικονιδίων StorePilot: Solid Navy & Mint -->
+    <svg xmlns="http://www.w3.org/2000/svg"
+         class="sp-icon-library"
+         aria-hidden="true"
+         focusable="false">
+        <symbol id="sp-box" viewBox="0 0 24 24">
+            <path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5v-9Zm9-2.2L6 8.1l6 3 6-3-6-2.8ZM5 9.7v5.6l6 3v-5.6l-6-3Zm8 8.6 6-3V9.7l-6 3v5.6Z"/>
+        </symbol>
+        <symbol id="sp-headphones" viewBox="0 0 24 24">
+            <path d="M12 3a9 9 0 0 0-9 9v6a3 3 0 0 0 3 3h2v-9H5a7 7 0 0 1 14 0h-3v9h2a3 3 0 0 0 3-3v-6a9 9 0 0 0-9-9Z"/>
+        </symbol>
+        <symbol id="sp-monitor" viewBox="0 0 24 24">
+            <path d="M4 3h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6v2h3v2H7v-2h3v-2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm0 2v12h16V5H4Z"/>
+        </symbol>
+        <symbol id="sp-keyboard" viewBox="0 0 24 24">
+            <path d="M3 5h18a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm1 3v2h2V8H4Zm4 0v2h2V8H8Zm4 0v2h2V8h-2Zm4 0v2h2V8h-2Zm4 0v2h2V8h-2ZM4 12v2h2v-2H4Zm4 0v2h2v-2H8Zm4 0v2h2v-2h-2Zm4 0v2h2v-2h-2Zm4 0v2h2v-2h-2ZM8 16v1h8v-1H8Z"/>
+        </symbol>
+        <symbol id="sp-mouse" viewBox="0 0 24 24">
+            <path d="M12 2a8 8 0 0 0-8 8v4a8 8 0 0 0 16 0v-4a8 8 0 0 0-8-8Zm-1 2.1V10H6v-.1A6 6 0 0 1 11 4.1ZM6 12h12v2a6 6 0 0 1-12 0v-2Zm7-7.9a6 6 0 0 1 5 5.8h-5V4.1Z"/>
+        </symbol>
+        <symbol id="sp-laptop" viewBox="0 0 24 24">
+            <path d="M5 3h14a2 2 0 0 1 2 2v12H3V5a2 2 0 0 1 2-2Zm0 2v10h14V5H5ZM1 19h22l-2 3H3l-2-3Z"/>
+        </symbol>
+        <symbol id="sp-cable" viewBox="0 0 24 24">
+            <path d="M7 2h2v5H7V2Zm8 0h2v5h-2V2ZM5 6h14v3a7 7 0 0 1-7 7v4a2 2 0 0 1-4 0v-2h2v2h0v-6a7 7 0 0 1-5-5V6Z"/>
+        </symbol>
+        <symbol id="sp-coins" viewBox="0 0 24 24">
+            <path d="M12 3C7 3 3 4.8 3 7s4 4 9 4 9-1.8 9-4-4-4-9-4Zm-9 7v3c0 2.2 4 4 9 4 1.1 0 2.1-.1 3-.3v-3c-.9.2-1.9.3-3 .3-4.1 0-7.5-1.1-9-2.7Zm0 6v1c0 2.2 4 4 9 4 3.1 0 5.8-.7 7.5-1.8A7 7 0 0 1 15 15c-1 .2-2 .3-3 .3-4.1 0-7.5-1.1-9-2.7V16Z"/>
+        </symbol>
+        <symbol id="sp-alert" viewBox="0 0 24 24">
+            <path d="M12 2 1 21h22L12 2Zm-1 7h2v6h-2V9Zm0 8h2v2h-2v-2Z"/>
+        </symbol>
+        <symbol id="sp-storage" viewBox="0 0 24 24">
+            <path d="M4 3h16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm0 3v12h16V6H4Zm3 2h10v2H7V8Zm0 4h10v2H7v-2Z"/>
+        </symbol>
+        <symbol id="sp-edit" viewBox="0 0 24 24">
+            <path d="m4 16.5 11.8-11.8a2.1 2.1 0 0 1 3 0l.5.5a2.1 2.1 0 0 1 0 3L7.5 20H4v-3.5ZM3 22h18v-2H3v2Z"/>
+        </symbol>
+        <symbol id="sp-trash" viewBox="0 0 24 24">
+            <path d="M8 3h8l1 2h4v2H3V5h4l1-2Zm-3 6h14l-1 12H6L5 9Zm4 2v8h2v-8H9Zm4 0v8h2v-8h-2Z"/>
+        </symbol>
+        <symbol id="sp-home" viewBox="0 0 24 24">
+            <path d="m2 11 10-9 10 9-1.5 1.5L19 11v10h-6v-6h-2v6H5V11l-1.5 1.5L2 11Z"/>
+        </symbol>
+        <symbol id="sp-chart" viewBox="0 0 24 24">
+            <path d="M3 3h18v18H3V3Zm3 12v3h3v-3H6Zm5-5v8h3v-8h-3Zm5-4v12h3V6h-3Z"/>
+        </symbol>
+        <symbol id="sp-movement" viewBox="0 0 24 24">
+            <path d="M4 4h14l-3-3 1.4-1.4L22 5l-5.6 5.4L15 9l3-3H4V4Zm16 16H6l3 3-1.4 1.4L2 19l5.6-5.4L9 15l-3 3h14v2Z"/>
+        </symbol>
+    </svg>
+
+
+    
+<!-- Κεντρική μπάρα πλοήγησης του StorePilot -->
+<header class="site-header" id="top">
+
+    <!-- Λογότυπο και στοιχεία εφαρμογής -->
+    <a href="{{ url_for('home') }}" class="brand">
+
+        <img
+            src="{{ url_for('static', filename='images/storepilot-logo.svg') }}"
+            alt="StorePilot logo"
+            class="brand-logo"
+        >
+
+        <div class="brand-text">
+            <h1>StorePilot</h1>
+            <p>Business Management System</p>
+        </div>
+
+    </a>
+
+    <!-- Κουμπιά πλοήγησης -->
+    <nav class="main-navigation">
+
+        <a href="{{ url_for('home') }}" class="nav-link active" aria-current="page">
+            <svg class="sp-icon" aria-hidden="true"><use href="#sp-home"></use></svg>
+            Αρχική
+        </a>
+
+        <a href="#products-section" class="nav-link">
+            <svg class="sp-icon" aria-hidden="true"><use href="#sp-box"></use></svg>
+            Προϊόντα
+        </a>
+
+        <a href="{{ url_for('stock_history') }}" class="nav-link">
+            <svg class="sp-icon" aria-hidden="true"><use href="#sp-movement"></use></svg>
+            Κινήσεις
+        </a>
+
+        <a href="#reports" class="nav-link">
+            <svg class="sp-icon" aria-hidden="true"><use href="#sp-chart"></use></svg>
+            Αναφορές
+        </a>
+
+    </nav>
+
+</header>
+
+    <!-- Κύριο περιεχόμενο της σελίδας -->
+    <main class="home-main">
+
+        <!-- Μηνύματα επιτυχίας ή σφάλματος -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+    <!-- Κάρτα καλωσορίσματος -->
+<section class="welcome-card">
+
+    <!-- Αριστερό μέρος: Κείμενο -->
+    <div class="welcome-content">
+
+        <h2>Καλώς ήρθες στο StorePilot!</h2>
+
+        <p class="welcome-description">
+            Το έξυπνο σύστημα διαχείρισης της επιχείρησής σου.
+            Οργάνωσε τα προϊόντα σου, παρακολούθησε το απόθεμά σου
+            και διαχειρίσου την αποθήκη σου εύκολα και αποτελεσματικά.
+        </p>
+
+    </div>
+
+    <div class="welcome-image">
+    <img
+        src="{{ url_for('static', filename='images/warehouse.png') }}"
+        alt="Κουτιά αποστολής και λίστα αποθήκης StorePilot"
+    >
+</div>
+</section>
+
+            <!-- Πίνακας στατιστικών αποθήκης -->
+            <div class="dashboard-stats">
+
+                <!-- Συνολικά προϊόντα -->
+                <div class="stat-card">
+                    <div class="stat-icon products-icon">
+                        <svg class="sp-icon" aria-hidden="true"><use href="#sp-box"></use></svg>
+                    </div>
+
+                    <div class="stat-info">
+                        <p>Σύνολο προϊόντων</p>
+                        <h3>{{ total_products }}</h3>
+                        <span>Καταχωρημένα προϊόντα</span>
+                    </div>
+                </div>
+
+                <!-- Συνολικό απόθεμα -->
+                <div class="stat-card">
+                    <div class="stat-icon stock-icon">
+                        <svg class="sp-icon" aria-hidden="true"><use href="#sp-storage"></use></svg>
+                    </div>
+
+                    <div class="stat-info">
+                        <p>Συνολικό απόθεμα</p>
+                        <h3>{{ total_stock }}</h3>
+                        <span>Τεμάχια στην αποθήκη</span>
+                    </div>
+                </div>
+
+                <!-- Προϊόντα με χαμηλό απόθεμα -->
+                <div class="stat-card">
+                    <div class="stat-icon warning-icon">
+                        <svg class="sp-icon" aria-hidden="true"><use href="#sp-alert"></use></svg>
+                    </div>
+
+            <div class="stat-info">
+                <p>Χαμηλό απόθεμα</p>
+
+                <h3>{{ low_stock_count }}</h3>
+
+                <span>5 ή λιγότερα τεμάχια</span>
+
+                {% if low_stock_count > 0 %}
+                    <button
+                        type="button"
+                        class="low-stock-toggle"
+                        id="lowStockToggle"
+                        aria-controls="lowStockSection"
+                        aria-expanded="false"
+                    >
+                        Προβολή προϊόντων
+                    </button>
+                {% else %}
+                    <span>Όλα τα προϊόντα έχουν επαρκές απόθεμα!</span>
+                {% endif %}
+            </div>
+                </div>
+
+                <!-- Συνολική χρηματική αξία αποθέματος -->
+                <div class="stat-card">
+                    <div class="stat-icon value-icon">
+                        <svg class="sp-icon" aria-hidden="true"><use href="#sp-coins"></use></svg>
+                    </div>
+
+                    <div class="stat-info">
+                         <p>Αξία αποθέματος</p>
+
+                        <h3>
+                            {{ "%.2f"|format(total_inventory_value) }} €
+                        </h3>
+
+                        <span>Συνολική αξία προϊόντων</span>
+                    </div>
+                </div> <!-- Τέλος τελευταίας stat-card -->
+
+</div> <!-- Τέλος dashboard-stats -->
+
+{% if low_stock_products %}
+
+<section
+    class="low-stock-section"
+    id="lowStockSection"
+    hidden
+>
+
+    <!-- Κεφαλίδα ενότητας -->
+    <div class="low-stock-header">
+        <div>
+<h2>
+    <span class="low-stock-header-icon">
+        <svg class="sp-icon" aria-hidden="true">
+            <use href="#sp-alert"></use>
+        </svg>
+    </span>
+    Προϊόντα που χρειάζονται αναπλήρωση
+</h2>            <p>Έλεγξε τα προϊόντα που πλησιάζουν στην εξάντληση.</p>
+        </div>
+
+        <span>{{ low_stock_count }} προϊόντα</span>
+    </div>
+
+    <!-- Λίστα προϊόντων -->
+    <div class="low-stock-list">
+
+        {% for product in low_stock_products %}
+
+        <div class="low-stock-item">
+
+            
+<!-- Στοιχεία προϊόντος και εικονίδιο -->
+<div class="low-stock-product-info">
+
+    <div class="low-stock-title-group">
+
+        <!-- Αυτόματη επιλογή εικονιδίου -->
+        <div class="low-stock-product-icon">
+
+    {% set product_name = product["name"]|lower %}
+
+    {% if "ακουστικ" in product_name or "headphone" in product_name or "headset" in product_name %}
+        {% set icon_name = "sp-headphones" %}
+    {% elif "οθον" in product_name or "monitor" in product_name %}
+        {% set icon_name = "sp-monitor" %}
+    {% elif "πληκτρολογ" in product_name or "keyboard" in product_name %}
+        {% set icon_name = "sp-keyboard" %}
+    {% elif "ποντικ" in product_name or "mouse" in product_name %}
+        {% set icon_name = "sp-mouse" %}
+    {% elif "υπολογιστ" in product_name or "laptop" in product_name or "computer" in product_name %}
+        {% set icon_name = "sp-laptop" %}
+    {% elif "καλώδ" in product_name or "cable" in product_name %}
+        {% set icon_name = "sp-cable" %}
+    {% else %}
+        {% set icon_name = "sp-box" %}
+    {% endif %}
+
+    <svg class="sp-icon" aria-hidden="true">
+        <use href="#{{ icon_name }}"></use>
+    </svg>
+
+</div>
+
+        <!-- Όνομα και SKU -->
+        <div>
+            <h3>{{ product["name"] }}</h3>
+            <p>SKU: {{ product["sku"] }}</p>
+        </div>
+
+    </div>
+
+</div>
+
+
+            <!-- Κατάσταση και ποσότητα αποθέματος -->
+            <div class="low-stock-status">
+
+                {% if product["quantity"] == 0 %}
+                    <span class="stock-status-label status-empty">
+                        Εξαντλημένο
+                    </span>
+
+                {% elif product["quantity"] <= 2 %}
+                    <span class="stock-status-label status-critical">
+                        Κρίσιμο απόθεμα
+                    </span>
+
+                {% else %}
+                    <span class="stock-status-label status-warning">
+                        Χαμηλό απόθεμα
+                    </span>
+                {% endif %}
+
+                <span class="low-stock-quantity">
+                    {{ product["quantity"] }} τεμάχια
+                </span>
+
+            </div>
+
+    <!-- Πρόοδος αποθέματος προς τον στόχο -->
+    {% set progress = ((product["quantity"] / target_stock) * 100)|round|int %}
+
+    <div class="low-stock-progress">
+
+        <div class="low-stock-progress-heading">
+            <span>Πρόοδος προς στόχο ({{ target_stock }} τεμ.)</span>
+
+            <strong>
+                {{ progress }}% ({{ product["quantity"] }} / {{ target_stock }})
+            </strong>
+        </div>
+
+        <div class="low-stock-progress-track">
+
+            <div
+                class="low-stock-progress-fill"
+                role="progressbar"
+                aria-valuenow="{{ progress }}"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                style="width: {{ progress }}%;"
+            ></div>
+
+        </div>
+
+    </div>
+
+            <!-- Προτεινόμενη παραγγελία -->
+            <div class="reorder-suggestion">
+                <span>Προτεινόμενη παραγγελία</span>
+
+                <strong>
+                    +{{ target_stock - product["quantity"] }} τεμάχια
+                </strong>
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endif %}
+
+<!-- ==========================================
+     ΑΝΑΛΥΣΗ ΑΠΟΘΕΜΑΤΟΣ ΚΑΙ ΠΡΟΣΦΑΤΕΣ ΚΙΝΗΣΕΙΣ
+     ========================================== -->
+<section class="dashboard-insights" id="reports">
+
+    <!-- Απόθεμα ανά κατηγορία - Κυκλικό γράφημα -->
+<article class="insight-card category-insight-card">
+    <div class="insight-card-header">
+        <div>
+            <h2>Απόθεμα ανά κατηγορία</h2>
+            <p>Κατανομή τεμαχίων στην αποθήκη</p>
+        </div>
+
+        <span class="insight-header-icon">
+            <svg class="sp-icon" aria-hidden="true">
+                <use href="#sp-chart"></use>
+            </svg>
+        </span>
+    </div>
+
+    {% if stock_per_category %}
+
+        {% set total_stock = stock_per_category | sum(attribute='quantity') %}
+        {% set circumference = 314.16 %}
+        {% set ns = namespace(offset=0) %}
+        {% set colors = ['#20B486', '#3978D4', '#F0A43A', '#8B6BD6', '#E56B8A', '#36A6B5'] %}
+
+        <div class="category-donut-layout">
+
+            <div class="category-donut">
+                <svg viewBox="0 0 120 120">
+
+                    <circle
+                        class="donut-background"
+                        cx="60"
+                        cy="60"
+                        r="50">
+                    </circle>
+
+                    {% for item in stock_per_category %}
+
+                        {% set percentage = (item["quantity"] / total_stock * 100) if total_stock > 0 else 0 %}
+                        {% set segment = circumference * percentage / 100 %}
+
+                        <circle
+                            class="donut-segment"
+                            cx="60"
+                            cy="60"
+                            r="50"
+                            fill="none"
+                            stroke="{{ colors[loop.index0 % (colors|length)] }}"
+                            stroke-width="13"
+                            stroke-dasharray="{{ segment }} {{ circumference - segment }}"
+                            stroke-dashoffset="{{ -ns.offset }}">
+                        </circle>
+
+                        {% set ns.offset = ns.offset + segment %}
+
+                    {% endfor %}
+
+                </svg>
+
+                <div class="category-donut-center">
+                    <strong>{{ total_stock }}</strong>
+                    <span>Τεμάχια</span>
+                </div>
+            </div>
+
+            <div class="category-donut-legend">
+
+                {% for item in stock_per_category %}
+
+                    {% set percentage = (item["quantity"] / total_stock * 100) if total_stock > 0 else 0 %}
+
+                    <div class="category-legend-item">
+
+                        <div class="category-legend-name">
+                            <span
+                                class="category-legend-dot"
+                                style="background: {{ colors[loop.index0 % (colors|length)] }};">
+                            </span>
+
+                            <span>{{ item["category"] }}</span>
+                        </div>
+
+                        <div class="category-legend-value">
+                            <strong>{{ item["quantity"] }}</strong>
+                            <span>{{ percentage|round|int }}%</span>
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    {% else %}
+
+        <div class="insight-empty-state">
+            Δεν υπάρχουν ακόμη καταχωρημένα προϊόντα.
+        </div>
+
+    {% endif %}
+</article>
+
+    <!-- Πρόσφατες κινήσεις αποθήκης -->
+    <article class="insight-card recent-movements-card">
+        <div class="insight-card-header">
+    <div class="recent-movements-title">
+        <span class="insight-header-icon">
+            <svg class="sp-icon" aria-hidden="true">
+                <use href="#sp-movement"></use>
+            </svg>
+        </span>
+
+        <div>
+            <h2>Πρόσφατες κινήσεις</h2>
+            <p>Οι τελευταίες ενημερώσεις αποθέματος</p>
+        </div>
+    </div>
+
+    <a href="{{ url_for('stock_history') }}" class="insight-view-all">
+        Προβολή όλων <span aria-hidden="true">→</span>
+    </a>
+</div>
+
+        {% if recent_stock_movements %}
+            <div class="recent-movement-list">
+                {% for movement in recent_stock_movements %}
+                    <div class="recent-movement-row">
+                        <span class="movement-type-icon {{ 'movement-in' if movement['movement_type'] == 'in' else 'movement-out' }}">
+                            {{ '+' if movement["movement_type"] == "in" else '−' }}
+                        </span>
+
+                        <div class="recent-movement-info">
+                            <strong>
+                                {{ 'Εισαγωγή' if movement["movement_type"] == "in" else 'Εξαγωγή' }}
+                                – {{ movement["product_name"] }}
+                            </strong>
+                            <span>
+                                {{ movement["created_at"][:16] }}
+                                {% if movement["note"] %} · {{ movement["note"] }}{% endif %}
+                            </span>
+                        </div>
+
+                        <strong class="recent-movement-quantity {{ 'quantity-in' if movement['movement_type'] == 'in' else 'quantity-out' }}">
+                            {{ '+' if movement["movement_type"] == "in" else '−' }}{{ movement["quantity"] }}
+                        </strong>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="insight-empty-state">
+                Δεν έχουν καταγραφεί ακόμη κινήσεις αποθήκης.
+            </div>
+        {% endif %}
+    </article>
+
+</section>
+
+        <!-- Ενότητα διαχείρισης προϊόντων -->
+        <section class="products-section" id="products-section">
+
+<!-- Τίτλος καταλόγου και ενέργειες προϊόντων -->
+<div class="products-header">
+    <h2>Τα προϊόντα μας</h2>
+
+    <div class="products-header-actions">
+
+        <!-- Κουμπί προσθήκης προϊόντος -->
+        <a href="{{ url_for('add_product_page') }}" class="btn-add">
+            + Προσθήκη προϊόντος
+        </a>
+
+    </div>
+</div>
+
+            <!-- Κεντρική διάταξη καταλόγου -->
+            <div class="catalog-layout">
+
+              
+<!-- Αριστερή πλευρική στήλη κατηγοριών -->
+<aside class="categories-sidebar">
+
+    <!-- Κουμπί ιστορικού κινήσεων -->
+    <a href="{{ url_for('stock_history') }}" class="sidebar-history-button">
+        <svg class="sp-icon" aria-hidden="true"><use href="#sp-movement"></use></svg>
+        Ιστορικό Κινήσεων
+    </a>
+
+    <h3>Κατηγορίες προϊόντων</h3>
+
+    <div class="categories-list">
+
+        <!-- Εμφάνιση όλων των προϊόντων -->
+        <a
+            href="{{ url_for('home') }}"
+            class="category-item {% if not selected_category %}active{% endif %}"
+        >
+            Όλα τα προϊόντα
+        </a>
+
+                        <!-- Εμφάνιση διαθέσιμων κατηγοριών -->
+                        {% for category in categories %}
+
+                            <a
+                                href="{{ url_for('home', category=category['name']) }}"
+                                class="category-item {% if selected_category == category['name'] %}active{% endif %}"
+                            >
+                                {{ category["name"] }}
+                            </a>
+
+                        {% endfor %}
+
+                    </div>
+                </aside>
+
+                <!-- Δεξιά πλευρά: Αναζήτηση και προϊόντα -->
+                <div class="catalog-content">
+
+                    <!-- Φόρμα αναζήτησης -->
+                    <form
+                        action="{{ url_for('home') }}"
+                        method="GET"
+                        class="search-form"
+                    >
+
+                        <!-- Διατήρηση επιλεγμένης κατηγορίας -->
+                        <input
+                            type="hidden"
+                            name="category"
+                            value="{{ selected_category }}"
+                        >
+
+                        <div class="search-autocomplete">
+
+    <!-- Πεδίο αναζήτησης προϊόντων -->
+    <input
+        type="text"
+        name="search"
+        id="productSearch"
+        placeholder="Αναζήτηση με όνομα, SKU ή Greeklish..."
+        value="{{ search_term }}"
+        aria-label="Αναζήτηση προϊόντων"
+        autocomplete="off"
+        aria-autocomplete="list"
+        aria-controls="searchSuggestions"
+        aria-expanded="false"
+    >
+
+    <!-- Εδώ θα εμφανίζονται οι αυτόματες προτάσεις -->
+    <div
+        id="searchSuggestions"
+        class="search-suggestions"
+        role="listbox"
+        hidden
+    ></div>
+
+</div>
+
+                        <button type="submit" class="btn-search">
+                            Αναζήτηση
+                        </button>
+
+                        {% if search_term %}
+                            <a
+                                href="{{ url_for('home', category=selected_category) }}"
+                                class="btn-clear-search"
+                            >
+                                Καθαρισμός
+                            </a>
+                        {% endif %}
+
+                    </form>
+
+                    <!-- Λίστα προϊόντων -->
+                    {% if products %}
+
+                        <div class="products-grid">
+
+                           {% for product in products %}
+
+<article class="product-card">
+
+    <!-- Κεφαλίδα προϊόντος -->
+<div class="product-header">
+
+    <div class="product-title-group">
+
+        <div class="product-icon">
+
+            {% set product_name = product["name"]|lower %}
+            {% if "ακουστικ" in product_name or "headphone" in product_name or "headset" in product_name %}
+                {% set icon_name = "sp-headphones" %}
+            {% elif "οθον" in product_name or "monitor" in product_name %}
+                {% set icon_name = "sp-monitor" %}
+            {% elif "πληκτρολογ" in product_name or "keyboard" in product_name %}
+                {% set icon_name = "sp-keyboard" %}
+            {% elif "ποντικ" in product_name or "mouse" in product_name %}
+                {% set icon_name = "sp-mouse" %}
+            {% elif "υπολογιστ" in product_name or "laptop" in product_name or "computer" in product_name %}
+                {% set icon_name = "sp-laptop" %}
+            {% elif "καλωδ" in product_name or "cable" in product_name %}
+                {% set icon_name = "sp-cable" %}
+            {% else %}
+                {% set icon_name = "sp-box" %}
+            {% endif %}
+            <svg class="sp-icon" aria-hidden="true"><use href="#{{ icon_name }}"></use></svg>
+</div>
+
+        <div>
+            <span class="product-label">ΠΡΟΪΟΝ</span>
+            <h3>{{ product["name"] }}</h3>
+        </div>
+
+    </div>
+
+    <span class="product-category
+    {% if product['category'] == 'Αποθήκευση' %}category-storage
+    {% elif product['category'] == 'Καλώδια' %}category-cables
+    {% elif product['category'] == 'Οθόνες' %}category-monitors
+    {% elif product['category'] == 'Περιφερειακά' %}category-peripherals
+    {% elif product['category'] == 'Υπολογιστές' %}category-computers
+    {% else %}category-default
+    {% endif %}">
+
+    {% if product["category"] == "Αποθήκευση" %}
+        {% set category_icon = "sp-storage" %}
+    {% elif product["category"] == "Καλώδια" %}
+        {% set category_icon = "sp-cable" %}
+    {% elif product["category"] == "Οθόνες" %}
+        {% set category_icon = "sp-monitor" %}
+    {% elif product["category"] == "Περιφερειακά" %}
+        {% set category_icon = "sp-mouse" %}
+    {% elif product["category"] == "Υπολογιστές" %}
+        {% set category_icon = "sp-laptop" %}
+    {% else %}
+        {% set category_icon = "sp-box" %}
+    {% endif %}
+    <svg class="sp-icon" aria-hidden="true"><use href="#{{ category_icon }}"></use></svg>
+
+    {{ product["category"] }}
+</span>
+
+</div>
+
+    <!-- Βασικές πληροφορίες -->
+    <div class="product-details">
+
+        <div class="product-detail">
+            <span class="detail-label">Κωδικός SKU</span>
+            <strong>{{ product["sku"] }}</strong>
+        </div>
+
+        <div class="product-detail">
+            <span class="detail-label">Τιμή προϊόντος</span>
+            <strong class="product-price">
+                {{ "%.2f"|format(product["price"]) }} €
+            </strong>
+        </div>
+
+    </div>
+
+    <!-- Πληροφορίες αποθέματος -->
+    <div class="stock-information">
+
+        <div class="stock-quantity">
+            <span class="detail-label">Διαθέσιμη ποσότητα</span>
+            <strong>{{ product["quantity"] }} τεμάχια</strong>
+        </div>
+
+        {% if product["quantity"] <= 5 %}
+
+            <span class="stock-status stock-low">
+                Χαμηλό απόθεμα
+            </span>
+
+        {% else %}
+
+            <span class="stock-status stock-available">
+                Επαρκές απόθεμα
+            </span>
+
+        {% endif %}
+
+    </div>
+
+    <!-- Ενέργειες προϊόντος -->
+    <div class="product-actions">
+
+        <a
+    href="{{ url_for('edit_product_page', product_id=product['id']) }}"
+    class="btn-edit"
+    title="Επεξεργασία"
+    aria-label="Επεξεργασία προϊόντος"
+>
+    <svg class="sp-icon" aria-hidden="true"><use href="#sp-edit"></use></svg>
+</a>
+
+<form
+        action="{{ url_for('delete_product_page', product_id=product['id']) }}"
+        method="POST"
+        onsubmit="return confirm('Είσαι σίγουρος ότι θέλεις να διαγράψεις αυτό το προϊόν;');"
+        >
+        <!-- Προστασία φόρμας διαγραφής από επιθέσεις CSRF -->
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <button
+            type="submit"
+            class="btn-delete"
+            title="Διαγραφή"
+            aria-label="Διαγραφή προϊόντος"
+        >
+            <svg class="sp-icon" aria-hidden="true"><use href="#sp-trash"></use></svg>
+        </button>
+</form>
+
+    </div>
+
+</article>
+
+{% endfor %}
+
+                        </div>
+
+                    {% else %}
+
+                        <p>
+                            Δεν υπάρχουν προϊόντα που να αντιστοιχούν
+                            στην αναζήτησή σου.
+                        </p>
+
+                    {% endif %}
+
+                </div>
+            </div>
+
+        </section>
+     
+
+    </main>
+<script>
+    // Εμφάνιση και απόκρυψη προϊόντων χαμηλού αποθέματος.
+    const lowStockToggle = document.getElementById("lowStockToggle");
+    const lowStockSection = document.getElementById("lowStockSection");
+
+    if (lowStockToggle && lowStockSection) {
+        // Συγχρονίζουμε την κατάσταση του κουμπιού με την ενότητα.
+        lowStockToggle.setAttribute(
+            "aria-expanded",
+            String(!lowStockSection.hidden)
+        );
+
+        lowStockToggle.addEventListener("click", function () {
+            // Αν είναι κρυφή, την εμφανίζουμε. Διαφορετικά την κρύβουμε.
+            const shouldShow = lowStockSection.hidden;
+
+            lowStockSection.hidden = !shouldShow;
+            lowStockToggle.textContent = shouldShow
+                ? "Απόκρυψη προϊόντων"
+                : "Προβολή προϊόντων";
+
+            lowStockToggle.setAttribute("aria-expanded", String(shouldShow));
+        });
+    }
+// ========================================
+// ΑΥΤΟΜΑΤΕΣ ΠΡΟΤΑΣΕΙΣ ΑΝΑΖΗΤΗΣΗΣ
+// ========================================
+
+const searchInput = document.getElementById("productSearch");
+const suggestionsBox = document.getElementById("searchSuggestions");
+const searchForm = searchInput?.closest("form");
+
+if (searchInput && suggestionsBox && searchForm) {
+
+    let debounceTimer;
+    let selectedIndex = -1;
+    let currentSuggestions = [];
+
+    // Κλείσιμο προτάσεων.
+    function closeSuggestions() {
+        suggestionsBox.innerHTML = "";
+        suggestionsBox.hidden = true;
+        searchInput.setAttribute("aria-expanded", "false");
+        selectedIndex = -1;
+        currentSuggestions = [];
+    }
+
+    // Εμφάνιση προϊόντων στη λίστα προτάσεων.
+    function showSuggestions(products) {
+
+        suggestionsBox.innerHTML = "";
+        currentSuggestions = products;
+        selectedIndex = -1;
+
+        if (products.length === 0) {
+            closeSuggestions();
+            return;
+        }
+
+        products.forEach((product, index) => {
+
+            const option = document.createElement("div");
+
+            option.className = "suggestion-item";
+            option.setAttribute("role", "option");
+            option.textContent = `${product.name} — ${product.sku}`;
+
+            option.addEventListener("click", () => {
+                searchInput.value = product.name;
+                closeSuggestions();
+                searchForm.requestSubmit();
+            });
+
+            suggestionsBox.appendChild(option);
+        });
+
+        suggestionsBox.hidden = false;
+        searchInput.setAttribute("aria-expanded", "true");
+    }
+
+    // Αναζήτηση προτάσεων στη βάση δεδομένων.
+    searchInput.addEventListener("input", () => {
+
+        clearTimeout(debounceTimer);
+
+        const query = searchInput.value.trim();
+
+        if (query.length < 2) {
+            closeSuggestions();
+            return;
+        }
+
+        debounceTimer = setTimeout(async () => {
+
+            try {
+                const response = await fetch(
+                    `/api/search-suggestions?q=${encodeURIComponent(query)}`
+                );
+
+                if (!response.ok) {
+                    throw new Error("Search request failed");
+                }
+
+                const data = await response.json();
+
+                // Εμφανίζουμε τα αποτελέσματα.
+                showSuggestions(data.suggestions || []);
+
+            } catch (error) {
+                console.error("Σφάλμα αναζήτησης:", error);
+                closeSuggestions();
+            }
+
+        }, 200);
+    });
+
+    // Επιλογή προτάσεων με τα βελάκια και Enter.
+    searchInput.addEventListener("keydown", (event) => {
+
+        const options = suggestionsBox.querySelectorAll(".suggestion-item");
+
+        if (suggestionsBox.hidden || options.length === 0) {
+            return;
+        }
+
+        if (event.key === "ArrowDown") {
+            event.preventDefault();
+            selectedIndex = (selectedIndex + 1) % options.length;
+
+        } else if (event.key === "ArrowUp") {
+            event.preventDefault();
+            selectedIndex =
+                (selectedIndex - 1 + options.length) % options.length;
+
+        } else if (event.key === "Escape") {
+            closeSuggestions();
+            return;
+
+        } else if (event.key === "Enter" && selectedIndex >= 0) {
+            event.preventDefault();
+
+            searchInput.value = currentSuggestions[selectedIndex].name;
+            closeSuggestions();
+            searchForm.requestSubmit();
+            return;
+
+        } else {
+            return;
+        }
+
+        options.forEach((option, index) => {
+            option.classList.toggle(
+                "active",
+                index === selectedIndex
+            );
+        });
+    });
+
+    // Κλείσιμο όταν κάνουμε κλικ έξω από την αναζήτηση.
+    document.addEventListener("click", (event) => {
+
+        if (!event.target.closest(".search-autocomplete")) {
+            closeSuggestions();
+        }
+    });
+}
+</script>
+<script>
+    // Μετά από αναζήτηση ή επιλογή κατηγορίας, επιστρέφουμε
+    // στον κατάλογο προϊόντων και όχι στην παλιά θέση κύλισης.
+    const returnToProductsKey = "storePilotReturnToProducts";
+
+    // Απενεργοποιούμε την αυτόματη επαναφορά παλιάς θέσης από τον browser.
+    if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+    }
+
+    // Σημειώνουμε ότι ο χρήστης θέλει να επιστρέψει στον κατάλογο.
+    function markReturnToProducts() {
+        sessionStorage.setItem(returnToProductsKey, "1");
+    }
+
+    // Όταν φορτώσει η σελίδα, πηγαίνουμε στον κατάλογο μόνο
+    // αν προηγήθηκε αναζήτηση ή επιλογή κατηγορίας.
+    window.addEventListener("pageshow", function () {
+        const shouldReturnToProducts =
+            sessionStorage.getItem(returnToProductsKey) === "1";
+
+        sessionStorage.removeItem(returnToProductsKey);
+
+        requestAnimationFrame(function () {
+            if (shouldReturnToProducts) {
+                const productsSection = document.getElementById("products-section");
+
+                if (productsSection) {
+                    productsSection.scrollIntoView({
+                        behavior: "auto",
+                        block: "start"
+                    });
+                }
+            } else {
+                // Σε κανονικό άνοιγμα της αρχικής σελίδας ξεκινάμε από πάνω.
+                window.scrollTo(0, 0);
+            }
+        });
+    });
+
+    // Επιλογή κατηγορίας: μετά τη φόρτωση επιστρέφουμε στα προϊόντα.
+    document.querySelectorAll(".categories-list .category-item")
+        .forEach(function (link) {
+            link.addEventListener("click", markReturnToProducts);
+        });
+
+    // Αναζήτηση: μετά την υποβολή επιστρέφουμε στα αποτελέσματα προϊόντων.
+    const productSearchForm = document.querySelector(".search-form");
+
+    if (productSearchForm) {
+        productSearchForm.addEventListener("submit", markReturnToProducts);
+    }
+</script>
+</body>
+</html>

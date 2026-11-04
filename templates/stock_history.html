@@ -1,0 +1,456 @@
+
+<!DOCTYPE html>
+<html lang="el">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>StorePilot | Ιστορικό Κινήσεων</title>
+
+    <!-- Σύνδεση με το κεντρικό CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+          <!-- Custom Calendar - Flatpickr -->
+            <link rel="stylesheet"
+             href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+
+<body>
+
+    <!-- Κεντρική μπάρα πλοήγησης του StorePilot -->
+    <header class="site-header" id="top">
+        <a href="{{ url_for('home') }}" class="brand">
+            <img
+                src="{{ url_for('static', filename='images/storepilot-logo.svg') }}"
+                alt="StorePilot logo"
+                class="brand-logo"
+            >
+            <div class="brand-text">
+                <h1>StorePilot</h1>
+                <p>Business Management System</p>
+            </div>
+        </a>
+
+        <nav class="main-navigation" aria-label="Κεντρική πλοήγηση">
+            <a href="{{ url_for('home') }}" class="nav-link">
+                <svg class="sp-icon" aria-hidden="true" focusable="false"><use href="{{ url_for('static', filename='images/icons.svg') }}#sp-home"></use></svg> Αρχική
+            </a>
+            <a href="{{ url_for('home') }}#products-section" class="nav-link">
+                <svg class="sp-icon" aria-hidden="true" focusable="false"><use href="{{ url_for('static', filename='images/icons.svg') }}#sp-box"></use></svg> Προϊόντα
+            </a>
+            <a href="{{ url_for('stock_history') }}" class="nav-link active" aria-current="page">
+                <svg class="sp-icon" aria-hidden="true" focusable="false"><use href="{{ url_for('static', filename='images/icons.svg') }}#sp-movement"></use></svg> Κινήσεις
+            </a>
+            <a href="{{ url_for('home') }}#reports" class="nav-link">
+                <svg class="sp-icon" aria-hidden="true" focusable="false"><use href="{{ url_for('static', filename='images/icons.svg') }}#sp-chart"></use></svg> Αναφορές
+            </a>
+        </nav>
+    </header>
+
+    <main class="history-main">
+
+        <!-- Μηνύματα εφαρμογής -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Τίτλος σελίδας -->
+        <section class="history-heading">
+
+            <div>
+                <span class="history-eyebrow">STORE MANAGEMENT</span>
+                <h2>Ιστορικό Κινήσεων Αποθήκης</h2>
+                <p>
+                    Παρακολούθησε όλες τις εισαγωγές και εξαγωγές
+                    των προϊόντων σου.
+                </p>
+            </div>
+
+            <a href="{{ url_for('home') }}"
+               class="history-back-button">
+                ← Επιστροφή στα προϊόντα
+            </a>
+
+        </section>
+
+        <!-- Στατιστικά κινήσεων -->
+        <section class="history-stats">
+
+            <div class="history-stat-card">
+                <div class="history-stat-icon"><svg class="sp-icon" aria-hidden="true" focusable="false"><use href="{{ url_for('static', filename='images/icons.svg') }}#sp-movement"></use></svg></div>
+                <div>
+                    <span>Συνολικές κινήσεις</span>
+                    <h3>{{ total_movements }}</h3>
+                </div>
+            </div>
+
+            <div class="history-stat-card">
+                <div class="history-stat-icon history-in-icon"><svg class="sp-icon" aria-hidden="true" focusable="false"><use href="{{ url_for('static', filename='images/icons.svg') }}#sp-in"></use></svg></div>
+                <div>
+                    <span>Συνολικές εισαγωγές</span>
+                    <h3>{{ total_in }}</h3>
+                    <small>Τεμάχια</small>
+                </div>
+            </div>
+
+            <div class="history-stat-card">
+                <div class="history-stat-icon history-out-icon"><svg class="sp-icon" aria-hidden="true" focusable="false"><use href="{{ url_for('static', filename='images/icons.svg') }}#sp-out"></use></svg></div>
+                <div>
+                    <span>Συνολικές εξαγωγές</span>
+                    <h3>{{ total_out }}</h3>
+                    <small>Τεμάχια</small>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Αναζήτηση και φίλτρα -->
+        <section class="history-content">
+
+            <div class="history-content-heading">
+                <div>
+                    <h3>Πρόσφατες κινήσεις</h3>
+                    <p>Αναλυτική λίστα δραστηριότητας αποθήκης</p>
+                </div>
+            </div>
+
+            <form method="GET"
+                  action="{{ url_for('stock_history') }}"
+                  class="history-filters">
+
+                
+
+<!-- Ημερομηνία έναρξης -->
+<div class="history-date-group">
+    <label for="date_from">Από ημερομηνία</label>
+
+    <input
+        type="text"
+        id="date_from"
+        name="date_from"
+        value="{{ date_from }}"
+        class="history-date-input"
+        placeholder="Επιλογή ημερομηνίας"
+        autocomplete="off">
+</div>
+
+<!-- Ημερομηνία λήξης -->
+<div class="history-date-group">
+    <label for="date_to">Έως ημερομηνία</label>
+
+    <input
+        type="text"
+        id="date_to"
+        name="date_to"
+        value="{{ date_to }}"
+        class="history-date-input"
+        placeholder="Επιλογή ημερομηνίας"
+        autocomplete="off">
+</div>
+
+
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Αναζήτηση προϊόντος ή SKU..."
+                    value="{{ search_term }}"
+                    class="history-search-input"
+                >
+
+<!-- Custom dropdown επιλογής τύπου κίνησης -->
+<div class="history-custom-select" id="historyTypeDropdown">
+
+    <!-- Κρατάμε το name="type" για να συνεχίσει να λειτουργεί το Flask -->
+    <input
+        type="hidden"
+        name="type"
+        id="historyTypeValue"
+        value="{{ selected_type }}"
+    >
+
+    <!-- Κουμπί εμφάνισης επιλογής -->
+    <button
+        type="button"
+        class="history-custom-trigger"
+        id="historyTypeTrigger"
+        aria-expanded="false"
+        aria-haspopup="listbox"
+    >
+        <span id="historyTypeLabel">
+            {% if selected_type == "in" %}
+                Εισαγωγές
+            {% elif selected_type == "out" %}
+                Εξαγωγές
+            {% else %}
+                Όλες οι κινήσεις
+            {% endif %}
+        </span>
+
+        <span class="history-custom-arrow">⌄</span>
+    </button>
+
+    <!-- Πράσινο μενού επιλογών -->
+    <div
+        class="history-custom-menu"
+        id="historyTypeMenu"
+        role="listbox"
+        hidden
+    >
+
+        <button type="button"
+                class="history-custom-option"
+                data-value="">
+            Όλες οι κινήσεις
+        </button>
+
+        <button type="button"
+                class="history-custom-option"
+                data-value="in">
+            Εισαγωγές
+        </button>
+
+        <button type="button"
+                class="history-custom-option"
+                data-value="out">
+            Εξαγωγές
+        </button>
+
+    </div>
+
+</div>
+
+                <button type="submit" class="history-filter-button">
+                    Αναζήτηση
+                </button>
+
+                <a href="{{ url_for('stock_history') }}"
+                   class="history-clear-button">
+                    Καθαρισμός
+                </a>
+
+            </form>
+            
+<!-- Κουμπί εξαγωγής ιστορικού σε Excel -->
+<div class="history-export-container">
+
+    <a
+        href="{{ url_for(
+            'export_stock_history',
+            search=request.args.get('search', ''),
+            type=request.args.get('type', ''),
+            date_from=request.args.get('date_from', ''),
+            date_to=request.args.get('date_to', '')
+        ) }}"
+        class="history-export-button"
+    >
+        <svg class="sp-icon" aria-hidden="true" focusable="false"><use href="{{ url_for('static', filename='images/icons.svg') }}#sp-excel"></use></svg>
+        Εξαγωγή σε Excel
+    </a>
+    
+</div>
+
+
+            <!-- Πίνακας ιστορικού -->
+            <div class="history-table-wrapper">
+
+                <table class="history-table">
+
+                    <thead>
+                        <tr>
+                            <th>Προϊόν</th>
+                            <th>Κωδικός SKU</th>
+                            <th>Τύπος κίνησης</th>
+                            <th>Ποσότητα</th>
+                            <th>Ημερομηνία</th>
+                            <th>Περιγραφή</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for movement in movements %}
+
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        {{ movement["product_name"] }}
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    {{ movement["sku"] }}
+                                </td>
+
+                                <td>
+                                    {% if movement["movement_type"] == "in" %}
+                                        <span class="history-badge history-badge-in">
+                                            <svg class="sp-icon" aria-hidden="true" focusable="false"><use href="{{ url_for('static', filename='images/icons.svg') }}#sp-in"></use></svg> Εισαγωγή
+                                        </span>
+                                    {% else %}
+                                        <span class="history-badge history-badge-out">
+                                            <svg class="sp-icon" aria-hidden="true" focusable="false"><use href="{{ url_for('static', filename='images/icons.svg') }}#sp-out"></use></svg> Εξαγωγή
+                                        </span>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {% if movement["movement_type"] == "in" %}
+                                        <strong class="history-quantity-in">
+                                            +{{ movement["quantity"] }}
+                                        </strong>
+                                    {% else %}
+                                        <strong class="history-quantity-out">
+                                            -{{ movement["quantity"] }}
+                                        </strong>
+                                    {% endif %}
+                                </td>
+
+                                <td class="history-date">
+                                    {{ movement["created_at"] }}
+                                </td>
+
+                                <td>
+                                    {{ movement["note"] or "—" }}
+                                </td>
+
+                            </tr>
+
+                        {% else %}
+
+                            <tr>
+                                <td colspan="6" class="history-empty">
+                                    <svg class="sp-icon" aria-hidden="true" focusable="false"><use href="{{ url_for('static', filename='images/icons.svg') }}#sp-box"></use></svg>
+                                    <strong>Δεν βρέθηκαν κινήσεις</strong>
+                                    <p>
+                                        Δεν υπάρχουν κινήσεις που να
+                                        αντιστοιχούν στα κριτήριά σου.
+                                    </p>
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+    <!-- Flatpickr JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<!-- Ελληνική γλώσσα -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/gr.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const calendarSettings = {
+    locale: "gr",
+    dateFormat: "Y-m-d",
+    altInput: true,
+    altFormat: "d/m/Y",
+    allowInput: true,
+    disableMobile: true,
+    animate: true,
+
+    // Το ημερολόγιο ανοίγει κάτω από το πεδίο.
+    position: "below",
+
+    // Πλάτος και συμπεριφορά ημερολογίου.
+    monthSelectorType: "dropdown",
+    showMonths: 1
+};
+
+flatpickr("#date_from", calendarSettings);
+flatpickr("#date_to", calendarSettings);
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const dropdown = document.getElementById("historyTypeDropdown");
+    const trigger = document.getElementById("historyTypeTrigger");
+    const menu = document.getElementById("historyTypeMenu");
+    const hiddenInput = document.getElementById("historyTypeValue");
+    const label = document.getElementById("historyTypeLabel");
+    const options = dropdown.querySelectorAll(".history-custom-option");
+
+    // Άνοιγμα και κλείσιμο του μενού
+    function toggleDropdown(open) {
+        dropdown.classList.toggle("is-open", open);
+        menu.hidden = !open;
+        trigger.setAttribute("aria-expanded", String(open));
+    }
+
+    // Επιλογή τύπου κίνησης
+    function selectOption(option) {
+
+        const value = option.dataset.value;
+
+        hiddenInput.value = value;
+        label.textContent = option.textContent.trim();
+
+        options.forEach(item => {
+            const selected = item === option;
+
+            item.classList.toggle("selected", selected);
+            item.setAttribute("aria-selected", String(selected));
+        });
+
+        toggleDropdown(false);
+    }
+
+    // Άνοιγμα μενού
+    trigger.addEventListener("click", function () {
+        const isOpen = trigger.getAttribute("aria-expanded") === "true";
+        toggleDropdown(!isOpen);
+    });
+
+    // Κλικ σε επιλογή
+    options.forEach(option => {
+        option.addEventListener("click", function () {
+            selectOption(option);
+        });
+    });
+
+    // Κλείσιμο όταν κάνουμε κλικ έξω από το dropdown
+    document.addEventListener("click", function (event) {
+        if (!dropdown.contains(event.target)) {
+            toggleDropdown(false);
+        }
+    });
+
+    // Κλείσιμο με Escape
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+            toggleDropdown(false);
+            trigger.focus();
+        }
+    });
+
+    // Διατήρηση της ήδη επιλεγμένης τιμής μετά από αναζήτηση
+    options.forEach(option => {
+        if (option.dataset.value === hiddenInput.value) {
+            selectOption(option);
+        }
+    });
+
+});
+</script>
+
+</body>
+</html>

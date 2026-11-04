@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# SQLite temporary files and local backups
+*.db-journal
+*.sqlite-wal
+*.sqlite-shm
+*.backup
+*-backup.db
+storepilot_test.db
+storepilot_demo.db
+
+# Logs
+*.log

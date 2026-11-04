@@ -1,0 +1,443 @@
+
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Επεξεργασία Προϊόντος | StorePilot</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="storepilot-form-page">
+
+    <!-- Κεφαλίδα εφαρμογής -->
+    <header class="site-header">
+        <div class="brand">
+            <img
+                src="{{ url_for('static', filename='images/storepilot-logo.svg') }}"
+                alt="StorePilot logo"
+                class="brand-logo"
+            >
+
+            <div class="brand-text">
+                <h1>StorePilot</h1>
+                <p>Business Management System</p>
+            </div>
+        </div>
+    </header>
+
+   <main class="page-container">
+
+    <!-- Επιστροφή στην αρχική, έξω από τη φόρμα -->
+    <div class="product-page-back">
+
+        <a href="{{ url_for('home') }}" class="polished-home-button">
+
+            <svg width="19" height="19"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round"
+                 aria-hidden="true">
+                <path d="M19 12H5"/>
+                <path d="M12 19l-7-7 7-7"/>
+            </svg>
+
+            <span>Επιστροφή στην αρχική</span>
+
+        </a>
+
+    </div>
+
+    <section class="product-form-card polished-form-card">
+            <!-- Τίτλος και κουμπί επιστροφής -->
+            <div class="polished-form-heading">
+
+                <div class="polished-heading-copy">
+
+                    <span class="polished-eyebrow">
+                        PRODUCT MANAGEMENT
+                    </span>
+
+                    <h2>Επεξεργασία προϊόντος</h2>
+
+                    <p>
+                        Ενημέρωσε τα στοιχεία του προϊόντος σου.
+                    </p>
+
+                </div>
+
+                <div class="polished-heading-actions">
+
+                    <!-- Εικονίδιο επεξεργασίας -->
+                    <div class="polished-heading-icon">
+                        ✎
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="polished-divider"></div>
+
+            <!-- Μηνύματα επιτυχίας ή σφάλματος -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+<!-- Φόρμα επεξεργασίας προϊόντος -->
+<form method="POST"
+      class="modern-product-form polished-product-form">
+
+    <!-- Προστασία φόρμας από επιθέσεις CSRF -->
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <!-- Όνομα προϊόντος -->
+    <div class="form-group">
+
+                    <label for="name">
+                        Όνομα προϊόντος
+                        <span class="required-mark">*</span>
+                    </label>
+
+                    <div class="polished-input-wrap">
+
+                        <span class="polished-input-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M20.6 13.4 11 3.8H4v7l9.6 9.6a2 2 0 0 0 2.8 0l4.2-4.2a2 2 0 0 0 0-2.8Z"/>
+                                <circle cx="7.5" cy="7.5" r="1"/>
+                            </svg>
+                        </span>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            value="{{ product['name'] }}"
+                            placeholder="π.χ. Ασύρματα Ακουστικά"
+                            required>
+
+                    </div>
+
+                </div>
+
+                <!-- Κωδικός SKU -->
+                <div class="form-group">
+
+                    <label for="sku">
+                        Κωδικός SKU
+                        <span class="required-mark">*</span>
+                    </label>
+
+                    <div class="polished-input-wrap">
+
+                        <span class="polished-input-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M4 5v14M7 5v14M11 5v14M14 5v14M18 5v14M21 5v14"/>
+                            </svg>
+                        </span>
+
+                        <input
+                            type="text"
+                            id="sku"
+                            name="sku"
+                            value="{{ product['sku'] }}"
+                            placeholder="π.χ. SKU001"
+                            required>
+
+                    </div>
+
+                </div>
+
+                <!-- Τιμή και ποσότητα -->
+                <div class="form-row polished-form-row">
+
+                    <!-- Τιμή -->
+                    <div class="form-group">
+
+                        <label for="price">
+                            Τιμή προϊόντος (€)
+                            <span class="required-mark">*</span>
+                        </label>
+
+                        <div class="polished-input-wrap">
+
+                            <span class="polished-input-icon euro-icon">
+                                €
+                            </span>
+
+                            <input
+                                type="number"
+                                id="price"
+                                name="price"
+                                min="0"
+                                step="0.01"
+                                value="{{ product['price'] }}"
+                                required>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Ποσότητα -->
+                    <div class="form-group">
+
+                        <label for="quantity">
+                            Διαθέσιμη ποσότητα
+                            <span class="required-mark">*</span>
+                        </label>
+
+                        <div class="polished-input-wrap">
+
+                            <span class="polished-input-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="m12 2 9 5v10l-9 5-9-5V7l9-5Z"/>
+                                    <path d="m3.5 7.2 8.5 4.9 8.5-4.9M12 12.1V22"/>
+                                </svg>
+                            </span>
+
+                            <input
+                                type="number"
+                                id="quantity"
+                                name="quantity"
+                                min="0"
+                                step="1"
+                                value="{{ product['quantity'] }}"
+                                required>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                
+
+<!-- Κατηγορία προϊόντος -->
+<div class="form-group custom-category-group">
+
+    <label for="categoryDropdown">
+        Κατηγορία προϊόντος
+        <span class="required-mark">*</span>
+    </label>
+
+    <div class="custom-category-select">
+
+        <!-- Αρχική κατηγορία από τη βάση δεδομένων -->
+        <input
+            type="hidden"
+            name="category"
+            id="category"
+            value="{{ product['category'] if product['category'] in ['Αποθήκευση', 'Καλώδια', 'Οθόνες', 'Περιφερειακά', 'Υπολογιστές'] else '' }}">
+
+        <button
+            type="button"
+            class="category-dropdown-trigger"
+            id="categoryDropdown"
+            aria-expanded="false"
+            aria-haspopup="listbox">
+
+            <span class="category-trigger-icon"><svg class="sp-icon" aria-hidden="true" focusable="false"><use href="{{ url_for('static', filename='images/icons.svg') }}#sp-box"></use></svg></span>
+
+            <span class="category-selected-label">
+                {{ product['category'] if product['category'] in ['Αποθήκευση', 'Καλώδια', 'Οθόνες', 'Περιφερειακά', 'Υπολογιστές'] else 'Επίλεξε κατηγορία προϊόντος' }}
+            </span>
+
+            <span class="category-chevron">⌄</span>
+
+        </button>
+
+        <div class="category-dropdown-menu" role="listbox" hidden>
+
+
+            <button type="button" class="category-option"
+                    data-value="Αποθήκευση" role="option">
+                <span class="category-option-icon"><svg class="sp-icon" aria-hidden="true" focusable="false"><use href="{{ url_for('static', filename='images/icons.svg') }}#sp-storage"></use></svg></span>
+                <span>Αποθήκευση</span>
+            </button>
+
+            <button type="button" class="category-option"
+                    data-value="Καλώδια" role="option">
+                <span class="category-option-icon"><svg class="sp-icon" aria-hidden="true" focusable="false"><use href="{{ url_for('static', filename='images/icons.svg') }}#sp-cable"></use></svg></span>
+                <span>Καλώδια</span>
+            </button>
+
+            <button type="button" class="category-option"
+                    data-value="Οθόνες" role="option">
+                <span class="category-option-icon"><svg class="sp-icon" aria-hidden="true" focusable="false"><use href="{{ url_for('static', filename='images/icons.svg') }}#sp-monitor"></use></svg></span>
+                <span>Οθόνες</span>
+            </button>
+
+            <button type="button" class="category-option"
+                    data-value="Περιφερειακά" role="option">
+                <span class="category-option-icon"><svg class="sp-icon" aria-hidden="true" focusable="false"><use href="{{ url_for('static', filename='images/icons.svg') }}#sp-keyboard"></use></svg></span>
+                <span>Περιφερειακά</span>
+            </button>
+
+            <button type="button" class="category-option"
+                    data-value="Υπολογιστές" role="option">
+                <span class="category-option-icon"><svg class="sp-icon" aria-hidden="true" focusable="false"><use href="{{ url_for('static', filename='images/icons.svg') }}#sp-laptop"></use></svg></span>
+                <span>Υπολογιστές</span>
+            </button>
+
+        </div>
+    </div>
+</div>
+
+
+
+                <div class="polished-divider form-bottom-divider"></div>
+
+                <!-- Κουμπιά ενεργειών -->
+                <div class="form-actions polished-form-actions">
+
+                    <button
+                        type="submit"
+                        class="primary-button polished-submit-button">
+
+                        ✓ Αποθήκευση αλλαγών
+
+                    </button>
+
+                    <a
+                        href="{{ url_for('home') }}"
+                        class="back-link polished-cancel-button">
+
+                        Ακύρωση
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+<script>
+/* =====================================================
+   STOREPILOT — CATEGORY DROPDOWN FUNCTIONALITY
+   ===================================================== */
+
+document.querySelectorAll(".custom-category-select").forEach(dropdown => {
+
+    const trigger = dropdown.querySelector(".category-dropdown-trigger");
+    const menu = dropdown.querySelector(".category-dropdown-menu");
+    const hiddenInput = dropdown.querySelector('input[name="category"]');
+    const selectedLabel = dropdown.querySelector(".category-selected-label");
+    const options = dropdown.querySelectorAll(".category-option");
+
+    // Αρχική επιλογή (χρήσιμη στην επεξεργασία προϊόντος)
+    function updateSelection(value, label) {
+
+        hiddenInput.value = value;
+        selectedLabel.textContent = label;
+
+        selectedLabel.classList.toggle("is-placeholder", value === "");
+
+        options.forEach(option => {
+            const isSelected = option.dataset.value === value;
+
+            option.classList.toggle("selected", isSelected);
+            option.setAttribute("aria-selected", isSelected ? "true" : "false");
+        });
+    }
+
+    // Εμφάνιση της ήδη αποθηκευμένης κατηγορίας
+    const initialOption = [...options].find(
+        option => option.dataset.value === hiddenInput.value
+    );
+
+    if (initialOption && hiddenInput.value !== "") {
+        updateSelection(
+            initialOption.dataset.value,
+            initialOption.querySelector("span:last-child").textContent.trim()
+        );
+    } else {
+        updateSelection("", "Επίλεξε κατηγορία προϊόντος");
+    }
+
+    // Άνοιγμα / κλείσιμο μενού
+    trigger.addEventListener("click", () => {
+
+        const isOpen = trigger.getAttribute("aria-expanded") === "true";
+
+        trigger.setAttribute("aria-expanded", String(!isOpen));
+        menu.hidden = isOpen;
+    });
+
+    // Επιλογή κατηγορίας
+    options.forEach(option => {
+
+        option.addEventListener("click", () => {
+
+            const value = option.dataset.value;
+            const label = option.querySelector("span:last-child").textContent.trim();
+
+            updateSelection(value, label);
+
+            menu.hidden = true;
+            trigger.setAttribute("aria-expanded", "false");
+        });
+
+    });
+
+    // Κλείσιμο μενού όταν κάνουμε κλικ έξω
+    document.addEventListener("click", event => {
+
+        if (!dropdown.contains(event.target)) {
+            menu.hidden = true;
+            trigger.setAttribute("aria-expanded", "false");
+        }
+
+    });
+
+    // Κλείσιμο με Escape
+    trigger.addEventListener("keydown", event => {
+
+        if (event.key === "Escape") {
+            menu.hidden = true;
+            trigger.setAttribute("aria-expanded", "false");
+        }
+
+    });
+
+});
+
+// Έλεγχος ότι έχει επιλεγεί κατηγορία πριν την αποστολή
+document.querySelectorAll(".polished-product-form").forEach(form => {
+
+    form.addEventListener("submit", event => {
+
+        const categoryInput = form.querySelector('input[name="category"]');
+
+        if (!categoryInput || !categoryInput.value) {
+
+            event.preventDefault();
+
+            const trigger = form.querySelector(".category-dropdown-trigger");
+            const menu = form.querySelector(".category-dropdown-menu");
+
+            menu.hidden = false;
+            trigger.setAttribute("aria-expanded", "true");
+            trigger.focus();
+
+        }
+
+    });
+
+});
+</script>
+</body>
+</html>
