@@ -1,93 +1,145 @@
-# StorePilot
+# StorePilot – Business & Inventory Management System
 
-Εφαρμογή διαχείρισης αποθήκης και προϊόντων με Flask και SQLite.
+<p align="center">
+  <strong>A web-based inventory management system built with Python and Flask.</strong>
+</p>
 
-## Δυνατότητες
+<p align="center">
+  <a href="https://storepilot-kpy7.onrender.com">
+    <strong>🚀 LIVE DEMO – Open StorePilot</strong>
+  </a>
+</p>
 
-- Dashboard με συνολικά προϊόντα, τεμάχια, χαμηλό απόθεμα και αξία αποθήκης.
-- Κατάλογος προϊόντων με αναζήτηση και φίλτρα κατηγορίας.
-- Αναζήτηση με ελληνικά, χωρίς τόνους, Greeklish και εναλλακτικές ονομασίες.
-- Προσθήκη, επεξεργασία και διαγραφή προϊόντων.
-- Καταγραφή εισαγωγών και εξαγωγών στο ιστορικό αποθήκης.
-- Φίλτρα ιστορικού και εξαγωγή σε Excel.
-- Ειδοποίηση χαμηλού αποθέματος με πρόοδο προς τον επιθυμητό στόχο.
-- Responsive σχεδιασμός.
+---
 
-## Τεχνολογίες
+## 📌 About the Project
 
-- Python
-- Flask
-- SQLite
-- HTML / CSS / JavaScript
-- Flask-WTF (CSRF protection)
-- openpyxl (Excel export)
+**StorePilot** is a business and inventory management web application designed to help businesses organize their products, monitor stock levels, track inventory movements, and manage their inventory efficiently.
 
-## Εγκατάσταση
+The application provides a clean and modern dashboard with useful inventory statistics and an easy-to-use interface.
 
-Απαιτείται Python 3.10 ή νεότερη.
+## ✨ Features
 
-1. Κάνε clone το repository:
-   ```bash
-   git clone <REPOSITORY-URL>
-   cd StorePilot
-   ```
+- **Dashboard:** Overview of products, total stock, low-stock alerts, and inventory value.
+- **Product Management:** Add, edit, delete, and organize products.
+- **Category Management:** Organize products into different categories.
+- **Smart Search:** Search products using names, SKU codes, synonyms, and normalized search terms.
+- **Stock Management:** Track stock movements and inventory updates.
+- **Reports:** View inventory statistics and generate Excel exports.
+- **Responsive Design:** Modern interface designed for different screen sizes.
+- **Greek Interface:** User interface available in Greek.
 
-2. Δημιούργησε virtual environment:
-   ```bash
-   python -m venv .venv
-   ```
+## 🛠️ Technologies Used
 
-3. Ενεργοποίησέ το στα Windows:
-   ```powershell
-   .venv\\Scripts\\Activate.ps1
-   ```
+| Technology | Purpose |
+|---|---|
+| Python | Backend programming |
+| Flask | Web framework |
+| SQLite | Database |
+| HTML5 | Page structure |
+| CSS3 | Styling and responsive design |
+| JavaScript | Interactive functionality |
+| Jinja2 | Dynamic HTML templates |
+| OpenPyXL | Excel export |
+| Gunicorn | Production WSGI server |
+| Render | Cloud deployment |
 
-   Σε macOS/Linux:
-   ```bash
-   source .venv/bin/activate
-   ```
+## 📸 Screenshots
 
-4. Εγκατάστησε τις εξαρτήσεις:
-   ```bash
-   pip install -r requirements.txt
-   ```
+Screenshots of the application will be added here.
 
-5. Εκκίνησε την εφαρμογή:
-   ```bash
-   python app.py
-   ```
+<!-- Add screenshots in the screenshots folder -->
 
-6. Άνοιξε στον browser:
-   `http://127.0.0.1:5000`
+## 🚀 Live Demo
 
-Η εφαρμογή χρησιμοποιεί από προεπιλογή το `storepilot.db` που βρίσκεται στον βασικό φάκελο του project. Αν το αρχείο δεν υπάρχει, οι πίνακες δημιουργούνται αυτόματα κατά την εκκίνηση. Το αρχείο βάσης που περιλαμβάνεται στο repository περιέχει ενδεικτικά δεδομένα επίδειξης.
+Try the application online:
 
-## Ρυθμίσεις
+**https://storepilot-kpy7.onrender.com**
 
-Μπορείς να ορίσεις τις μεταβλητές περιβάλλοντος `SECRET_KEY` και `DATABASE_NAME`. Για τοπική ανάπτυξη η εφαρμογή δημιουργεί προσωρινό secret key αν δεν έχει οριστεί `SECRET_KEY`. Για deployment πρέπει να οριστεί ισχυρό, μόνιμο secret key από τις ρυθμίσεις του hosting provider.
+*Note: The free hosting environment may take a few seconds to wake up after inactivity. Demo data may not be permanently retained.*
 
-## Δομή φακέλων
+## 💻 Run Locally
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/nikolasmarantas9/StorePilot.git
+```
+
+### 2. Open the project folder
+
+```bash
+cd StorePilot
+```
+
+### 3. Create a virtual environment
+
+```bash
+python -m venv venv
+```
+
+### 4. Activate the virtual environment
+
+Windows:
+
+```bash
+venv\Scripts\activate
+```
+
+### 5. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 6. Run the application
+
+```bash
+python app.py
+```
+
+Open your browser and visit:
+
+```text
+http://127.0.0.1:5000
+```
+
+## 📂 Project Structure
 
 ```text
 StorePilot/
-├── app.py
-├── database.py
-├── create_demo_database.py
-├── requirements.txt
-├── README.md
-├── .env.example
+│
+├── static/                  # CSS, JavaScript and static assets
+├── templates/               # HTML templates
+├── app.py                   # Flask application and routes
+├── database.py              # Database operations
+├── create_demo_database.py  # Demo database creation
+├── requirements.txt         # Python dependencies
+├── .env.example             # Example environment variables
 ├── .gitignore
-├── storepilot.db
-├── static/
-│   ├── css/style.css
-│   └── images/
-└── templates/
-    ├── index.html
-    ├── add_product.html
-    ├── edit_product.html
-    └── stock_history.html
+└── README.md
 ```
 
-## Σημείωση
+## 🎯 Project Goals
 
-Το `create_demo_database.py` δημιουργεί ξεχωριστή βάση επίδειξης και δεν εκτελείται αυτόματα κατά την εκκίνηση της εφαρμογής.
+This project was developed to practice and demonstrate practical skills in:
+
+- Python backend development
+- Flask web application development
+- Database management with SQLite
+- CRUD operations
+- Search functionality and text normalization
+- Frontend development with HTML, CSS and JavaScript
+- Application deployment and Git version control
+
+## 👨‍💻 Author
+
+**Nikolas Marantas**
+
+GitHub: [@nikolasmarantas9](https://github.com/nikolasmarantas9)
+
+---
+
+<p align="center">
+  <strong>StorePilot – Smart Inventory Management.</strong>
+</p>
